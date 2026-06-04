@@ -1,0 +1,762 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Solicitação de Marketing — Rezende Energia</title>
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' fill='%23F97316'/><text y='24' x='5' font-size='20' font-family='Georgia,serif' font-weight='bold' fill='%23000'>R</text></svg>" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,600&display=swap" rel="stylesheet" />
+
+  <style>
+    /* ─── RESET ─────────────────────────────────────────────── */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+
+    /* ─── TOKENS ─────────────────────────────────────────────── */
+    :root {
+      --orange:      #F97316;
+      --orange-lt:   #FB923C;
+      --orange-glow: rgba(249,115,22,.16);
+      --black:       #080808;
+      --s1:          #111111;
+      --s2:          #181818;
+      --s3:          #212121;
+      --border:      rgba(255,255,255,.07);
+      --border-f:    rgba(249,115,22,.55);
+      --text:        #EDE9E3;
+      --muted:       #6B6660;
+      --label:       #A89F97;
+      --radius:      7px;
+      --ease:        cubic-bezier(.4,0,.2,1);
+    }
+
+    /* ─── BODY + BG ──────────────────────────────────────────── */
+    body {
+      font-family: 'DM Sans', sans-serif;
+      background: var(--black);
+      color: var(--text);
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+
+    /* subtle grid + top glow */
+    body::before {
+      content: '';
+      position: fixed; inset: 0; z-index: 0; pointer-events: none;
+      background:
+        radial-gradient(ellipse 100% 55% at 50% -5%, rgba(249,115,22,.11) 0%, transparent 65%),
+        repeating-linear-gradient(0deg,   transparent, transparent 59px, rgba(255,255,255,.025) 60px),
+        repeating-linear-gradient(90deg,  transparent, transparent 59px, rgba(255,255,255,.025) 60px);
+    }
+
+    /* ─── LAYOUT ─────────────────────────────────────────────── */
+    .page {
+      position: relative; z-index: 1;
+      max-width: 800px;
+      margin: 0 auto;
+      padding: 52px 24px 96px;
+    }
+
+    /* ─── HEADER ─────────────────────────────────────────────── */
+    .header {
+      display: flex;
+      align-items: center;
+      gap: 22px;
+      margin-bottom: 56px;
+      animation: slideDown .65s cubic-bezier(.22,1,.36,1) both;
+    }
+
+    /* parallelogram logo mark */
+    .logomark {
+      flex-shrink: 0;
+      width: 54px; height: 54px;
+      background: var(--orange);
+      clip-path: polygon(12% 0%, 100% 0%, 88% 100%, 0% 100%);
+      display: flex; align-items: center; justify-content: center;
+    }
+    .logomark span {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 30px; color: #000;
+      padding-left: 5px;
+    }
+
+    .header-copy { flex: 1; min-width: 0; }
+    .company-tag {
+      font-size: 10px;
+      letter-spacing: 4.5px;
+      color: var(--orange);
+      text-transform: uppercase;
+      margin-bottom: 5px;
+    }
+    .page-title {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: clamp(26px, 5.5vw, 44px);
+      letter-spacing: 2.5px;
+      line-height: 1;
+      white-space: nowrap;
+    }
+
+    .hbar {
+      width: 1px; height: 54px; flex-shrink: 0;
+      background: linear-gradient(to bottom, transparent, var(--orange), transparent);
+    }
+
+    /* ─── CARD ───────────────────────────────────────────────── */
+    .card {
+      background: var(--s1);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: clamp(28px, 5vw, 50px);
+      position: relative;
+      overflow: hidden;
+      animation: fadeUp .75s cubic-bezier(.22,1,.36,1) .08s both;
+    }
+    /* top accent line */
+    .card::before {
+      content: '';
+      position: absolute; top: 0; left: 0; right: 0; height: 2px;
+      background: linear-gradient(90deg, transparent 0%, var(--orange) 35%, rgba(249,115,22,.4) 70%, transparent 100%);
+    }
+    /* faint "RE" watermark */
+    .card::after {
+      content: 'RE';
+      position: absolute; bottom: -18px; right: 24px;
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 130px;
+      color: rgba(255,255,255,.025);
+      pointer-events: none;
+      user-select: none;
+      line-height: 1;
+    }
+
+    .section-label {
+      font-size: 10px;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      color: var(--muted);
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 34px;
+    }
+    .section-label::after {
+      content: ''; flex: 1; height: 1px; background: var(--border);
+    }
+
+    /* ─── FORM GRID ──────────────────────────────────────────── */
+    .grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 22px 28px;
+    }
+    .span2 { grid-column: 1 / -1; }
+
+    /* ─── FIELD ──────────────────────────────────────────────── */
+    .field { display: flex; flex-direction: column; gap: 8px; }
+
+    .field > label {
+      font-size: 10.5px;
+      font-weight: 600;
+      letter-spacing: 2.5px;
+      text-transform: uppercase;
+      color: var(--label);
+      user-select: none;
+    }
+    .field > label .req { color: var(--orange); margin-left: 1px; }
+
+    /* inputs / select / textarea shared */
+    .field input,
+    .field select,
+    .field textarea {
+      background: var(--s2);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      color: var(--text);
+      font-family: 'DM Sans', sans-serif;
+      font-size: 14.5px;
+      padding: 11px 14px;
+      outline: none;
+      width: 100%;
+      -webkit-appearance: none;
+      transition:
+        border-color .2s var(--ease),
+        box-shadow   .2s var(--ease),
+        background   .2s var(--ease);
+    }
+    .field input::placeholder,
+    .field textarea::placeholder { color: var(--muted); }
+
+    .field input:focus,
+    .field select:focus,
+    .field textarea:focus {
+      border-color: var(--border-f);
+      box-shadow: 0 0 0 3px var(--orange-glow);
+      background: var(--s3);
+    }
+
+    /* custom select arrow */
+    .field select {
+      cursor: pointer;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='7' fill='none'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%236B6660' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+      background-repeat: no-repeat;
+      background-position: right 14px center;
+      padding-right: 38px;
+    }
+    .field select option { background: var(--s2); }
+
+    /* date picker icon tint */
+    input[type="date"]::-webkit-calendar-picker-indicator {
+      filter: invert(.45) sepia(1) saturate(4) hue-rotate(350deg);
+      cursor: pointer;
+    }
+
+    /* textarea */
+    .field textarea {
+      resize: vertical;
+      min-height: 128px;
+      line-height: 1.65;
+    }
+
+    /* ─── PRIORITY PILLS ─────────────────────────────────────── */
+    .pill-group {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+    .pill-group input[type="radio"] { display: none; }
+
+    .pill-lbl {
+      padding: 8px 20px;
+      border: 1px solid var(--border);
+      border-radius: 100px;
+      font-size: 13px;
+      font-weight: 500;
+      color: var(--muted);
+      background: var(--s2);
+      cursor: pointer;
+      user-select: none;
+      transition: all .18s var(--ease);
+      white-space: nowrap;
+    }
+    .pill-lbl:hover { border-color: rgba(249,115,22,.35); color: var(--text); }
+
+    .pill-group input[type="radio"]:checked + .pill-lbl {
+      background: var(--orange);
+      border-color: var(--orange);
+      color: #000;
+      font-weight: 600;
+      box-shadow: 0 0 18px var(--orange-glow);
+    }
+
+    /* ─── UPLOAD ZONE ────────────────────────────────────────── */
+    .drop-zone {
+      position: relative;
+      border: 1.5px dashed rgba(255,255,255,.11);
+      border-radius: var(--radius);
+      background: var(--s2);
+      padding: 30px 20px;
+      text-align: center;
+      cursor: pointer;
+      transition: border-color .2s var(--ease), background .2s var(--ease);
+    }
+    .drop-zone:hover,
+    .drop-zone.over {
+      border-color: var(--orange);
+      background: rgba(249,115,22,.04);
+    }
+    .drop-zone input[type="file"] {
+      position: absolute; inset: 0;
+      opacity: 0; cursor: pointer;
+      width: 100%; height: 100%;
+    }
+
+    .drop-icon {
+      display: block;
+      margin: 0 auto 10px;
+      width: 38px; height: 38px;
+      opacity: .35;
+      color: var(--orange);
+    }
+    .drop-txt {
+      font-size: 13.5px;
+      color: var(--muted);
+      line-height: 1.55;
+      pointer-events: none;
+    }
+    .drop-txt strong { color: var(--orange); font-weight: 500; }
+
+    .chosen-file {
+      display: none;
+      margin-top: 10px;
+      font-size: 12.5px;
+      color: var(--orange);
+      font-weight: 500;
+    }
+
+    /* ─── DIVIDER ────────────────────────────────────────────── */
+    .form-divider {
+      grid-column: 1 / -1;
+      height: 1px;
+      background: var(--border);
+      margin: 6px 0;
+    }
+
+    /* ─── SUBMIT ROW ─────────────────────────────────────────── */
+    .submit-row {
+      margin-top: 38px;
+      display: flex;
+      align-items: center;
+      gap: 22px;
+      flex-wrap: wrap;
+    }
+
+    .btn-send {
+      background: var(--orange);
+      color: #000;
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 19px;
+      letter-spacing: 2.5px;
+      padding: 13px 42px;
+      border: none;
+      border-radius: var(--radius);
+      cursor: pointer;
+      clip-path: polygon(0 0, 100% 0, 97% 100%, 3% 100%);
+      position: relative;
+      overflow: hidden;
+      transition: background .2s var(--ease), transform .15s, box-shadow .2s var(--ease);
+    }
+    .btn-send::after {
+      content: '';
+      position: absolute; inset: 0;
+      background: linear-gradient(135deg, rgba(255,255,255,.14) 0%, transparent 55%);
+      pointer-events: none;
+    }
+    .btn-send:hover:not(:disabled) {
+      background: var(--orange-lt);
+      transform: translateY(-2px);
+      box-shadow: 0 10px 28px rgba(249,115,22,.32);
+    }
+    .btn-send:active:not(:disabled) { transform: translateY(0); }
+    .btn-send:disabled { opacity: .5; cursor: not-allowed; }
+
+    .send-note {
+      font-size: 12px;
+      color: var(--muted);
+      line-height: 1.55;
+    }
+    .send-note b { color: var(--label); font-weight: 500; }
+
+    /* spinner inside button */
+    @keyframes spin { to { transform: rotate(360deg); } }
+    .spinner {
+      display: inline-block;
+      width: 15px; height: 15px;
+      border: 2px solid rgba(0,0,0,.25);
+      border-top-color: #000;
+      border-radius: 50%;
+      animation: spin .7s linear infinite;
+      vertical-align: middle;
+      margin-right: 8px;
+    }
+
+    /* ─── INLINE ERROR ───────────────────────────────────────── */
+    .err-bar {
+      display: none;
+      margin-top: 18px;
+      padding: 12px 16px;
+      background: rgba(248,113,113,.07);
+      border: 1px solid rgba(248,113,113,.25);
+      border-left: 3px solid #f87171;
+      border-radius: var(--radius);
+      font-size: 13px;
+      color: #fca5a5;
+      line-height: 1.5;
+    }
+    .err-bar.show { display: block; }
+
+    /* ─── SUCCESS MODAL ──────────────────────────────────────── */
+    .modal-bg {
+      position: fixed; inset: 0; z-index: 200;
+      background: rgba(0,0,0,.82);
+      backdrop-filter: blur(10px);
+      display: flex; align-items: center; justify-content: center;
+      opacity: 0; pointer-events: none;
+      transition: opacity .35s var(--ease);
+    }
+    .modal-bg.open { opacity: 1; pointer-events: all; }
+
+    .modal {
+      background: var(--s1);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 52px 44px;
+      text-align: center;
+      max-width: 430px;
+      width: 92%;
+      position: relative;
+      overflow: hidden;
+      transform: scale(.88) translateY(22px);
+      transition: transform .5s cubic-bezier(.22,1,.36,1);
+    }
+    .modal-bg.open .modal { transform: scale(1) translateY(0); }
+
+    .modal::before {
+      content: '';
+      position: absolute; top: 0; left: 0; right: 0; height: 2px;
+      background: var(--orange);
+    }
+
+    .modal-icon {
+      width: 66px; height: 66px;
+      border: 2px solid var(--orange);
+      border-radius: 50%;
+      background: rgba(249,115,22,.08);
+      display: flex; align-items: center; justify-content: center;
+      margin: 0 auto 26px;
+    }
+    .modal-icon svg { color: var(--orange); }
+
+    .modal h2 {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 32px;
+      letter-spacing: 2px;
+      margin-bottom: 12px;
+    }
+    .modal p {
+      font-size: 14.5px;
+      color: var(--muted);
+      line-height: 1.65;
+    }
+    .modal p b { color: var(--orange); }
+
+    .modal-close {
+      margin-top: 32px;
+      background: transparent;
+      border: 1px solid var(--border);
+      color: var(--muted);
+      font-family: 'DM Sans', sans-serif;
+      font-size: 13px;
+      padding: 10px 30px;
+      border-radius: 100px;
+      cursor: pointer;
+      transition: border-color .18s, color .18s;
+    }
+    .modal-close:hover { border-color: var(--orange); color: var(--orange); }
+
+    /* ─── FOOTER ─────────────────────────────────────────────── */
+    .footer {
+      text-align: center;
+      margin-top: 52px;
+      font-size: 11px;
+      letter-spacing: 1px;
+      color: var(--muted);
+      animation: fadeUp .9s cubic-bezier(.22,1,.36,1) .25s both;
+    }
+    .footer span { color: rgba(249,115,22,.5); }
+
+    /* ─── KEYFRAMES ──────────────────────────────────────────── */
+    @keyframes slideDown {
+      from { opacity: 0; transform: translateY(-22px); }
+      to   { opacity: 1; transform: translateY(0);     }
+    }
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(18px); }
+      to   { opacity: 1; transform: translateY(0);    }
+    }
+
+    /* ─── RESPONSIVE ─────────────────────────────────────────── */
+    @media (max-width: 580px) {
+      .grid { grid-template-columns: 1fr; }
+      .span2 { grid-column: 1; }
+      .header { flex-wrap: wrap; gap: 14px; }
+      .hbar { display: none; }
+      .page-title { white-space: normal; }
+      .submit-row { flex-direction: column; align-items: stretch; }
+      .btn-send { text-align: center; }
+      .modal { padding: 40px 28px; }
+    }
+  </style>
+</head>
+<body>
+
+<div class="page">
+
+  <!-- HEADER -->
+  <header class="header">
+    <div class="logomark"><span>R</span></div>
+    <div class="header-copy">
+      <p class="company-tag">Rezende Energia</p>
+      <h1 class="page-title">SOLICITAÇÃO DE MARKETING</h1>
+    </div>
+    <div class="hbar"></div>
+  </header>
+
+  <!-- CARD -->
+  <div class="card">
+    <p class="section-label">Preencha os campos abaixo</p>
+
+    <form id="form" novalidate>
+      <div class="grid">
+
+        <!-- Nome -->
+        <div class="field">
+          <label for="nome">Nome <span class="req">*</span></label>
+          <input type="text" id="nome" name="nome"
+                 placeholder="Seu nome completo" autocomplete="name" required />
+        </div>
+
+        <!-- Setor -->
+        <div class="field">
+          <label for="setor">Setor <span class="req">*</span></label>
+          <select id="setor" name="setor" required>
+            <option value="" disabled selected>Selecione o setor</option>
+            <option>Recursos Humanos</option>
+            <option>Financeiro</option>
+            <option>Operacional</option>
+            <option>TI</option>
+            <option>Comercial</option>
+            <option>SESMT</option>
+            <option>Diretoria</option>
+            <option>Outro</option>
+          </select>
+        </div>
+
+        <!-- Tipo de Solicitação -->
+        <div class="field">
+          <label for="tipo">Tipo de Solicitação <span class="req">*</span></label>
+          <select id="tipo" name="tipo" required>
+            <option value="" disabled selected>Selecione o tipo</option>
+            <option>Arte para redes sociais</option>
+            <option>Banner / Faixa</option>
+            <option>Cartão de visitas</option>
+            <option>Convite / Evento</option>
+            <option>Apresentação (PowerPoint)</option>
+            <option>Uniforme / Brinde</option>
+            <option>Vídeo / Animação</option>
+            <option>Comunicado interno</option>
+            <option>Outros</option>
+          </select>
+        </div>
+
+        <!-- Data -->
+        <div class="field">
+          <label for="data">Data de Entrega Desejada <span class="req">*</span></label>
+          <input type="date" id="data" name="data" required />
+        </div>
+
+        <!-- Prioridade -->
+        <div class="field span2">
+          <label>Prioridade <span class="req">*</span></label>
+          <div class="pill-group">
+            <input type="radio" name="prioridade" id="p-baixa"   value="Baixa"   />
+            <label class="pill-lbl" for="p-baixa">🟢 Baixa</label>
+
+            <input type="radio" name="prioridade" id="p-normal"  value="Normal"  checked />
+            <label class="pill-lbl" for="p-normal">🔵 Normal</label>
+
+            <input type="radio" name="prioridade" id="p-alta"    value="Alta"    />
+            <label class="pill-lbl" for="p-alta">🟡 Alta</label>
+
+            <input type="radio" name="prioridade" id="p-urgente" value="Urgente" />
+            <label class="pill-lbl" for="p-urgente">🔴 Urgente</label>
+          </div>
+        </div>
+
+        <!-- Divider -->
+        <div class="form-divider"></div>
+
+        <!-- Descrição -->
+        <div class="field span2">
+          <label for="descricao">Descrição da Solicitação <span class="req">*</span></label>
+          <textarea id="descricao" name="descricao"
+            placeholder="Descreva com detalhes: formato, tamanho, cores, textos, referências visuais, contexto de uso…"
+            required></textarea>
+        </div>
+
+        <!-- Upload -->
+        <div class="field span2">
+          <label>
+            Arquivo de Referência
+            <span style="color:var(--muted);text-transform:none;letter-spacing:0;font-weight:400;font-size:10px;">
+              — opcional
+            </span>
+          </label>
+          <div class="drop-zone" id="dropZone">
+            <input type="file" id="arquivo"
+                   accept=".jpg,.jpeg,.png,.gif,.pdf,.docx,.pptx,.xlsx,.zip,.ai,.svg,.eps" />
+            <svg class="drop-icon" viewBox="0 0 24 24" fill="none"
+                 stroke="currentColor" stroke-width="1.4"
+                 stroke-linecap="round" stroke-linejoin="round">
+              <path d="M12 15V3m0 0L8 7m4-4l4 4"/>
+              <path d="M2 17l.621 2.485A2 2 0 004.561 21h14.878a2 2 0 001.94-1.515L22 17"/>
+            </svg>
+            <p class="drop-txt">
+              <strong>Clique para selecionar</strong> ou arraste o arquivo aqui<br>
+              JPG, PNG, PDF, DOCX, PPTX, AI, SVG, ZIP
+            </p>
+            <p class="chosen-file" id="chosenFile"></p>
+          </div>
+        </div>
+
+      </div><!-- /grid -->
+
+      <!-- Error bar -->
+      <div class="err-bar" id="errBar"></div>
+
+      <!-- Submit row -->
+      <div class="submit-row">
+        <button type="submit" class="btn-send" id="btnSend">
+          ENVIAR SOLICITAÇÃO
+        </button>
+        <p class="send-note">
+          Será enviado para<br>
+          <b>marketing@rezendeenergia.com.br</b>
+        </p>
+      </div>
+    </form>
+  </div><!-- /card -->
+
+  <footer class="footer">
+    © 2025 Rezende Construção e Manutenção Ltda
+    <span>·</span> Uso interno
+  </footer>
+</div><!-- /page -->
+
+<!-- SUCCESS MODAL -->
+<div class="modal-bg" id="modalBg">
+  <div class="modal">
+    <div class="modal-icon">
+      <svg width="30" height="30" viewBox="0 0 24 24" fill="none"
+           stroke="currentColor" stroke-width="2.2"
+           stroke-linecap="round" stroke-linejoin="round">
+        <polyline points="20 6 9 17 4 12"/>
+      </svg>
+    </div>
+    <h2>SOLICITAÇÃO ENVIADA!</h2>
+    <p>
+      Sua solicitação foi recebida com sucesso.<br>
+      Em breve a equipe de Marketing entrará em contato,
+      <b id="modalNome"></b>.
+    </p>
+    <button class="modal-close" id="modalClose">Fechar</button>
+  </div>
+</div>
+
+<script>
+  /* ── date min ─────────────────────────────────────────────── */
+  document.getElementById('data').min =
+    new Date().toISOString().split('T')[0];
+
+  /* ── drag-over styling ───────────────────────────────────── */
+  const dropZone   = document.getElementById('dropZone');
+  const fileInput  = document.getElementById('arquivo');
+  const chosenFile = document.getElementById('chosenFile');
+
+  ['dragover','dragenter'].forEach(e =>
+    dropZone.addEventListener(e, ev => { ev.preventDefault(); dropZone.classList.add('over'); })
+  );
+  ['dragleave','drop'].forEach(e =>
+    dropZone.addEventListener(e, () => dropZone.classList.remove('over'))
+  );
+  dropZone.addEventListener('drop', ev => {
+    ev.preventDefault();
+    if (ev.dataTransfer.files[0]) showFile(ev.dataTransfer.files[0]);
+  });
+  fileInput.addEventListener('change', () => {
+    if (fileInput.files[0]) showFile(fileInput.files[0]);
+  });
+  function showFile(f) {
+    chosenFile.textContent = '📎 ' + f.name;
+    chosenFile.style.display = 'block';
+  }
+
+  /* ── modal helpers ───────────────────────────────────────── */
+  const modalBg = document.getElementById('modalBg');
+  document.getElementById('modalClose').onclick =
+    () => modalBg.classList.remove('open');
+  modalBg.addEventListener('click', e => {
+    if (e.target === modalBg) modalBg.classList.remove('open');
+  });
+
+  /* ── form submit ─────────────────────────────────────────── */
+  const form   = document.getElementById('form');
+  const btn    = document.getElementById('btnSend');
+  const errBar = document.getElementById('errBar');
+
+  form.addEventListener('submit', async e => {
+    e.preventDefault();
+    errBar.classList.remove('show');
+
+    const nome      = document.getElementById('nome').value.trim();
+    const setor     = document.getElementById('setor').value;
+    const tipo      = document.getElementById('tipo').value;
+    const data      = document.getElementById('data').value;
+    const prioridade= document.querySelector('input[name="prioridade"]:checked')?.value || 'Normal';
+    const descricao = document.getElementById('descricao').value.trim();
+    const arquivo   = fileInput.files[0];
+
+    /* basic validation */
+    if (!nome || !setor || !tipo || !data || !descricao) {
+      showErr('Preencha todos os campos obrigatórios antes de enviar.');
+      return;
+    }
+
+    /* loading state */
+    btn.disabled = true;
+    btn.innerHTML = '<span class="spinner"></span>ENVIANDO…';
+
+    /* format date for display */
+    const dataFmt = new Date(data + 'T12:00:00')
+      .toLocaleDateString('pt-BR', { day: '2-digit', month: 'long', year: 'numeric' });
+
+    const payload = {
+      nome,
+      setor,
+      tipo,
+      prioridade,
+      data: dataFmt,
+      descricao,
+      arquivo_nome: arquivo ? arquivo.name : null,
+    };
+
+    try {
+      const res = await fetch('/.netlify/functions/send-email', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload),
+      });
+
+      if (!res.ok) {
+        const j = await res.json().catch(() => ({}));
+        throw new Error(j.error || `Erro ${res.status}`);
+      }
+
+      /* SUCCESS */
+      form.reset();
+      chosenFile.style.display = 'none';
+      document.getElementById('modalNome').textContent = nome.split(' ')[0];
+      modalBg.classList.add('open');
+
+    } catch (err) {
+      console.error(err);
+      showErr(
+        'Não foi possível enviar. Verifique sua conexão ou encaminhe diretamente para ' +
+        '<a href="mailto:marketing@rezendeenergia.com.br" style="color:#f87171">' +
+        'marketing@rezendeenergia.com.br</a>.'
+      );
+    } finally {
+      btn.disabled = false;
+      btn.innerHTML = 'ENVIAR SOLICITAÇÃO';
+    }
+  });
+
+  function showErr(msg) {
+    errBar.innerHTML = '⚠ ' + msg;
+    errBar.classList.add('show');
+    errBar.scrollIntoView({ behavior: 'smooth', block: 'center' });
+  }
+</script>
+</body>
+</html>
