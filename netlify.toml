@@ -1,14 +1,15 @@
 [build]
   publish = "."
-  command = "npm install"
 
 [functions]
   directory = "netlify/functions"
   node_bundler = "esbuild"
+
+[functions.send-email]
+  node_version = "20"
 
 [[headers]]
   for = "/*"
   [headers.values]
     X-Frame-Options = "DENY"
     X-Content-Type-Options = "nosniff"
-    Referrer-Policy = "strict-origin-when-cross-origin"
