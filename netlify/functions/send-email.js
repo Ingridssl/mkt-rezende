@@ -1,10 +1,10 @@
 // netlify/functions/send-email.js
-// Envio via Microsoft Graph API (sem SMTP)
+// Envio via Microsoft Graph API com suporte a anexo (base64)
 //
 // Variáveis de ambiente no Netlify:
 //   AZURE_TENANT_ID     — 56a8eefc-c653-4efd-a3db-db881ffbde6e
 //   AZURE_CLIENT_ID     — aac7ce36-bf33-4a43-afe4-b7625b00d6a1
-//   AZURE_CLIENT_SECRET — 1Vt8Q~2WGNw_SDGc.hYHgNSN5k-~Lnqetmklwc~N
+//   AZURE_CLIENT_SECRET — valor do secret
 //   MAIL_FROM           — ti@rezendeenergia.com.br
 //   MAIL_TO             — ingrid.silva@rezendeenergia.com.br
 
@@ -20,7 +20,7 @@ exports.handler = async (event) => {
     return { statusCode: 400, body: JSON.stringify({ error: "JSON inválido" }) };
   }
 
-  const { nome, setor, tipo, prioridade, data, descricao, arquivo_nome } = body;
+  const { nome, setor, tipo, prioridade, data, descricao, arquivo_nome, arquivo_base64, arquivo_tipo } = body;
 
   if (!nome || !setor || !tipo || !data || !descricao) {
     return {
@@ -65,7 +65,7 @@ exports.handler = async (event) => {
     };
   }
 
-  // ── 2. Montar HTML do e-mail ───────────────────────────────────────────────
+  // ── 2. HTML do e-mail ──────────────────────────────────────────────────────
   function escapeHtml(str) {
     return String(str || "")
       .replace(/&/g, "&amp;")
@@ -115,12 +115,13 @@ exports.handler = async (event) => {
               </td>
             </tr>
             ${row("Data Desejada", data)}
-            ${arquivo_nome ? row("Arquivo Mencionado", arquivo_nome) : ""}
+            ${arquivo_nome ? row("Arquivo Anexado", arquivo_nome) : ""}
           </table>
           <div style="margin-top:28px;">
             <p style="margin:0 0 8px;font-size:11px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:#999;">Descrição</p>
             <div style="background:#f9f9f9;border-left:3px solid #F97316;border-radius:0 6px 6px 0;padding:16px 20px;font-size:14px;color:#333;line-height:1.7;white-space:pre-wrap;">${escapeHtml(descricao)}</div>
           </div>
+          ${arquivo_nome ? `<p style="margin:24px 0 0;font-size:12px;color:#999;">📎 O arquivo <strong>${escapeHtml(arquivo_nome)}</strong> está anexado neste e-mail.</p>` : ""}
         </td>
       </tr>
       <tr>
@@ -133,20 +134,7 @@ exports.handler = async (event) => {
 </table>
 </body></html>`;
 
-  const textBody = `NOVA SOLICITAÇÃO DE MARKETING — REZENDE ENERGIA
-================================================
-Solicitante : ${nome}
-Setor       : ${setor}
-Tipo        : ${tipo}
-Prioridade  : ${prioridade}
-Data        : ${data}
-Arquivo     : ${arquivo_nome || "Nenhum"}
-
-Descrição:
-${descricao}
-================================================`;
-
-  // ── 3. Enviar via Graph API ────────────────────────────────────────────────
+  // ── 3. Montar payload Graph API ────────────────────────────────────────────
   const mailPayload = {
     message: {
       subject: `[Marketing] ${tipo} — ${prioridade} | ${setor} (${nome})`,
@@ -157,6 +145,19 @@ ${descricao}
     saveToSentItems: false,
   };
 
+  // Adicionar anexo se enviado
+  if (arquivo_base64 && arquivo_nome) {
+    mailPayload.message.attachments = [
+      {
+        "@odata.type": "#microsoft.graph.fileAttachment",
+        name: arquivo_nome,
+        contentType: arquivo_tipo || "application/octet-stream",
+        contentBytes: arquivo_base64,
+      },
+    ];
+  }
+
+  // ── 4. Enviar ──────────────────────────────────────────────────────────────
   try {
     const sendRes = await fetch(
       `https://graph.microsoft.com/v1.0/users/${MAIL_FROM}/sendMail`,
