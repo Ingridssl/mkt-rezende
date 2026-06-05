@@ -711,6 +711,21 @@
     const dataFmt = new Date(data + 'T12:00:00')
       .toLocaleDateString('pt-BR', { day: '2-digit', month: 'long', year: 'numeric' });
 
+    /* ler arquivo como base64 se existir */
+    let arquivo_base64 = null;
+    let arquivo_tipo   = null;
+    let arquivo_nome_val = arquivo ? arquivo.name : null;
+
+    if (arquivo) {
+      arquivo_tipo   = arquivo.type || 'application/octet-stream';
+      arquivo_base64 = await new Promise((resolve, reject) => {
+        const reader = new FileReader();
+        reader.onload  = () => resolve(reader.result.split(',')[1]);
+        reader.onerror = reject;
+        reader.readAsDataURL(arquivo);
+      });
+    }
+
     const payload = {
       nome,
       setor,
@@ -718,7 +733,9 @@
       prioridade,
       data: dataFmt,
       descricao,
-      arquivo_nome: arquivo ? arquivo.name : null,
+      arquivo_nome:   arquivo_nome_val,
+      arquivo_base64: arquivo_base64,
+      arquivo_tipo:   arquivo_tipo,
     };
 
     try {
