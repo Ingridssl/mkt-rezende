@@ -2,8 +2,5 @@
   "name": "mkt-rezende",
   "version": "1.0.0",
   "description": "Formulário de Solicitação de Marketing — Rezende Energia",
-  "private": true,
-  "dependencies": {
-    "nodemailer": "^6.9.13"
-  }
+  "private": true
 }
