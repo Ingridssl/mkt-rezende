@@ -146,7 +146,7 @@ Rezende Construção e Manutenção Ltda — Uso interno
   try {
     await transporter.sendMail({
       from: `"Formulário de Marketing" <${process.env.SMTP_USER}>`,
-      to: process.env.MAIL_TO || "marketing@rezendeenergia.com.br",
+      to: process.env.MAIL_TO || "ingrid.silva@rezendeenergia.com.br",
       replyTo: process.env.SMTP_USER,
       subject: `[Marketing] ${tipo} — ${prioridade} | ${setor} (${nome})`,
       text: textBody,
